@@ -1,7 +1,10 @@
 import prisma from "@/prisma";
 import auth from "@/crypto/auth";
 
-export default async ({id, signature}: { id: number, signature: Buffer }) => {
+export default async ({id, signature}: {
+    id: number
+    signature: Buffer
+}) => {
     await auth((await prisma.juese.findUniqueOrThrow({
         where: {id},
         select: {
