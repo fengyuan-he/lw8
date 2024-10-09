@@ -15,42 +15,40 @@ datasource db {
 }
 
 model Wenyou {
-  id        Int        @id @default(autoincrement())
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  keyVerify Bytes      @unique
-  keyWrap   Bytes      @unique
-  message   String
-  Comment   Juese[]
-  Reply     Xingdong[]
+  id         Int        @id @default(autoincrement())
+  createdAt  DateTime   @default(now())
+  keyVerify  Bytes      @unique
+  keyEncrypt Bytes      @unique
+  message    String
+  Juese      Juese[]
+  Xingdong   Xingdong[]
 }
 
 model Juese {
-  Topic         Wenyou     @relation(fields: [topicId], references: [id])
-  topicId       Int
+  Wenyou        Wenyou     @relation(fields: [wenyouId], references: [id])
+  wenyouId      Int
   id            Int        @id @default(autoincrement())
   createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
   keyVerify     Bytes      @unique
-  keyWrap       Bytes      @unique
+  keyEncrypt    Bytes      @unique
   messageData   Bytes
   messageVector Bytes      @unique
-  Replu         Xingdong[]
+  Xingdong      Xingdong[]
 
-  @@index([topicId])
+  @@index([wenyouId])
 }
 
 model Xingdong {
-  Topic         Wenyou   @relation(fields: [topicId], references: [id])
-  topicId       Int
-  Comment       Juese    @relation(fields: [commentId], references: [id])
-  commentId     Int
+  Wenyou        Wenyou   @relation(fields: [wenyouId], references: [id])
+  wenyouId      Int
+  Juese         Juese    @relation(fields: [jueseId], references: [id])
+  jueseId       Int
   id            Int      @id @default(autoincrement())
   createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
   messageData   Bytes
   messageVector Bytes    @unique
+  zhukong       Boolean
 
-  @@index([topicId])
-  @@index([commentId])
+  @@index([wenyouId])
+  @@index([jueseId])
 }
