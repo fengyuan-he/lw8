@@ -10,40 +10,40 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  url       = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
-model Topic {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  keyVerify Bytes     @unique
-  keyWrap   Bytes     @unique
+model Wenyou {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  keyVerify Bytes      @unique
+  keyWrap   Bytes      @unique
   message   String
-  Comment   Comment[]
-  Reply     Reply[]
+  Comment   Juese[]
+  Reply     Xingdong[]
 }
 
-model Comment {
-  Topic         Topic    @relation(fields: [topicId], references: [id])
+model Juese {
+  Topic         Wenyou     @relation(fields: [topicId], references: [id])
   topicId       Int
-  id            Int      @id @default(autoincrement())
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  keyVerify     Bytes    @unique
-  keyWrap       Bytes    @unique
+  id            Int        @id @default(autoincrement())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  keyVerify     Bytes      @unique
+  keyWrap       Bytes      @unique
   messageData   Bytes
-  messageVector Bytes    @unique
-  Replu         Reply[]
+  messageVector Bytes      @unique
+  Replu         Xingdong[]
 
   @@index([topicId])
 }
 
-model Reply {
-  Topic         Topic    @relation(fields: [topicId], references: [id])
+model Xingdong {
+  Topic         Wenyou   @relation(fields: [topicId], references: [id])
   topicId       Int
-  Comment       Comment  @relation(fields: [commentId], references: [id])
+  Comment       Juese    @relation(fields: [commentId], references: [id])
   commentId     Int
   id            Int      @id @default(autoincrement())
   createdAt     DateTime @default(now())
