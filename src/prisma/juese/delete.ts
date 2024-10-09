@@ -11,6 +11,11 @@ export default async ({id, signature}: {
             keyVerify: true
         }
     })).keyVerify, Buffer.alloc(0), signature)
+    await prisma.xingdong.deleteMany({
+        where: {
+            jueseId: id
+        }
+    })
     await prisma.juese.delete({
         where: {id}
     })
