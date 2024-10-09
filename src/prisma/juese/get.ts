@@ -1,8 +1,12 @@
 import prisma from "@/prisma";
 import to from "@/base64/to";
 
-export default async ({id, lt, gt}: { id: number, lt?: number, gt?: number }) => {
-    if (lt !== undefined && gt !== undefined) throw new Error('不能同时有lt和gt')
+export default async ({id, lt, gt}: {
+    id: number
+    lt?: number
+    gt?: number
+}) => {
+    if (lt !== undefined && gt !== undefined) throw new Error('lt和gt不能同时有')
     const {
         Wenyou,
         wenyouId,

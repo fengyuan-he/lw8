@@ -1,7 +1,10 @@
 import prisma from "@/prisma/index";
 
-export default async ({lt, gt}: { lt?: number, gt?: number }) => {
-    if (lt !== undefined && gt !== undefined) throw new Error('不能同时有lt和gt')
+export default async ({lt, gt}: {
+    lt?: number
+    gt?: number
+}) => {
+    if (lt !== undefined && gt !== undefined) throw new Error('lt和gt不能同时有')
     const Wenyou = (await prisma.wenyou.findMany({
         ...lt !== undefined ? {where: {id: {lt}}} : gt !== undefined && {where: {id: {gt}}},
         orderBy: {
