@@ -2,11 +2,12 @@ import {ReactNode, useCallback, useEffect, useState} from "react";
 import {Button} from "@/components/ui/button";
 import Report from "@/components/Report";
 
-export default function Async({fn, children, autoClick, autoPoll}: {
+export default function Async({fn, children, autoClick, autoPoll, disabled}: {
     fn: () => Promise<void>
     children?: ReactNode
     autoClick?: boolean
     autoPoll?: boolean
+    disabled?: boolean
 }) {
     const [error, setError] = useState<Error | null>()
     const handleClick = useCallback(() => {
@@ -22,6 +23,20 @@ export default function Async({fn, children, autoClick, autoPoll}: {
             return () => clearInterval(interval)
         }
     }, [autoClick, autoPoll, handleClick])
-    if (error instanceof Error) return <Report error={error} onRetry={handleClick}/>
-    return <Button variant="secondary" size="sm" disabled={error === null} onClick={handleClick}>{children}</Button>
+    if (error instanceof Error) return (
+        <Report
+            error={error}
+            onRetry={handleClick}
+        />
+    )
+    return (
+        <Button
+            variant="secondary"
+            size="sm"
+            disabled={error === null || disabled}
+            onClick={handleClick}
+        >
+            {children}
+        </Button>
+    )
 }
