@@ -2,7 +2,7 @@ import api from "@/app/api";
 import tSchema from "@/app/api/tSchema";
 import post from "@/prisma/xingdong/post";
 import {z} from "zod";
-import update from "@/prisma/xingdong/update";
+import patch from "@/prisma/xingdong/patch";
 import del from "@/prisma/xingdong/delete";
 import bSchema from "@/app/api/bSchema";
 import put from "@/prisma/xingdong/put";
@@ -16,7 +16,7 @@ export const POST = api(async request => post(z.object({
     signature: bSchema
 }).strict().parse(await request.json())))
 
-export const UPDATE = api(async request => update(z.object({
+export const PATCH = api(async request => patch(z.object({
     id: z.number(),
     messageData: bSchema,
     messageVector: bSchema,

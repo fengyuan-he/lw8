@@ -3,8 +3,7 @@ import Items from "@/components/Items";
 import app from "@/app/index";
 import {z} from "zod";
 import Frame from "@/components/Frame";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import Anchor from "@/components/Anchor";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import MDX from "@/components/MDX";
 import {Separator} from "@/components/ui/separator";
 import useLocalStorage from "@/app/useLocalStorage";
@@ -17,6 +16,7 @@ import {Textarea} from "@/components/ui/textarea";
 import {Switch} from "@/components/ui/switch";
 import {Label} from "@/components/ui/label";
 import Async from "@/components/Async";
+import Wenyou, {WenyouProps} from "@/app/Wenyou";
 
 const GET = app(z.object({
     announcement: z.string(),
@@ -56,12 +56,12 @@ const handleCreate = async (message: string) => {
 }
 
 export default function Page() {
-    const [msg, setMsg] = useLocalStorage('msg')
-    const message = useMemo(() => msg ?? '', [msg])
+    const [msg, setMsg] = useLocalStorage('wenyou-msg')
+    const msg_ = useMemo(() => msg ?? '', [msg])
     const [preview, setPreview] = useState(false)
     const {push} = useRouter()
     const create = useCallback(async () => {
-        const id = await handleCreate(message)
+        const id = await handleCreate(msg_)
         setMsg(undefined)
         setPreview(false)
         push(`/wenyou/${id}`)
@@ -71,19 +71,7 @@ export default function Page() {
             handleRefresh={handleRefresh}
             handleLoadNew={handleLoadNew}
             handleLoadOld={handleLoadOld}
-            map={({id, at, message}: ReturnType<typeof parseGET>['list'][number]) => (
-                <Card>
-                    <CardHeader>
-                        <CardTitle>
-                            <Anchor href={`/wenyou/${id}`}>{">"}{id}</Anchor>
-                        </CardTitle>
-                        <CardDescription>{at}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <MDX>{message}</MDX>
-                    </CardContent>
-                </Card>
-            )}
+            map={(value: WenyouProps) => <Wenyou {...value}/>}
         >
             {([refresh, list]) => <Frame header="首页" actions={refresh}>{list && (() => {
                 const [{announcement}, node] = list
@@ -100,7 +88,7 @@ export default function Page() {
                         <Separator/>
                         {
                             preview ?
-                                <MDX>{message}</MDX> :
+                                <MDX>{msg_}</MDX> :
                                 <Textarea
                                     className="resize-none my-4"
                                     placeholder="请在这里填写要创建的文游的内容，支持MDX格式，将公开可见"

@@ -4,7 +4,7 @@ import tSchema from "@/app/api/tSchema";
 import idSchema from "@/app/api/idSchema";
 import post from "@/prisma/wenyou/post";
 import {z} from "zod";
-import update from "@/prisma/wenyou/update";
+import patch from "@/prisma/wenyou/patch";
 import del from "@/prisma/wenyou/delete";
 import bSchema from "@/app/api/bSchema";
 
@@ -21,7 +21,7 @@ export const POST = api(async request => post(z.object({
     signature: bSchema
 }).strict().parse(await request.json())))
 
-export const UPDATE = api(async request => update(z.object({
+export const PATCH = api(async request => patch(z.object({
     id: z.number(),
     message: z.string(),
     signature: bSchema
