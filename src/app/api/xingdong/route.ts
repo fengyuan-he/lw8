@@ -12,7 +12,7 @@ export const POST = api(async request => post(z.object({
     jueseId: z.number(),
     messageData: bSchema,
     messageVector: bSchema,
-    zhukong: z.boolean(),
+    wanjia: z.boolean(),
     signature: bSchema
 }).strict().parse(await request.json())))
 

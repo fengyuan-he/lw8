@@ -1,14 +1,14 @@
 import prisma from "@/prisma";
 import auth from "@/crypto/auth";
 
-export default async ({jueseId, messageData, messageVector, zhukong, signature}: {
+export default async ({jueseId, messageData, messageVector, wanjia, signature}: {
     jueseId: number
     messageData: Buffer
     messageVector: Buffer
-    zhukong: boolean
+    wanjia: boolean
     signature: Buffer
 }) => {
-    await auth(zhukong ? (await prisma.juese.findUniqueOrThrow({
+    await auth(wanjia ? (await prisma.juese.findUniqueOrThrow({
         where: {
             id: jueseId
         },
@@ -32,7 +32,7 @@ export default async ({jueseId, messageData, messageVector, zhukong, signature}:
             jueseId,
             messageData,
             messageVector,
-            zhukong,
+            wanjia,
             ...await prisma.juese.findUniqueOrThrow({
                 where: {
                     id: jueseId

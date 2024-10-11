@@ -47,7 +47,7 @@ model Xingdong {
   createdAt     DateTime @default(now())
   messageData   Bytes
   messageVector Bytes    @unique
-  zhukong       Boolean
+  wanjia        Boolean
 
   @@index([wenyouId])
   @@index([jueseId])

@@ -40,7 +40,7 @@ export default async ({id, lt, gt}: {
                     createdAt: true,
                     messageData: true,
                     messageVector: true,
-                    zhukong: true
+                    wanjia: true
                 }
             }
         }
@@ -56,12 +56,12 @@ export default async ({id, lt, gt}: {
         keyEncrypt: to(keyEncrypt),
         messageData: to(messageData),
         messageVector: to(messageVector),
-        list: Xingdong.map(({id, createdAt, messageData, messageVector, zhukong}) => ({
+        list: Xingdong.map(({id, createdAt, messageData, messageVector, wanjia}) => ({
             id,
             create: createdAt.valueOf(),
             messageData: to(messageData),
             messageVector: to(messageVector),
-            zhukong
+            wanjia
         }))
     }
 }

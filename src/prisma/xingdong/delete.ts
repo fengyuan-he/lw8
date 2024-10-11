@@ -5,10 +5,10 @@ export default async ({id, signature}: {
     id: number
     signature: Buffer
 }) => {
-    const {zhukong, Juese, Wenyou} = await prisma.xingdong.findUniqueOrThrow({
+    const {wanjia, Juese, Wenyou} = await prisma.xingdong.findUniqueOrThrow({
         where: {id},
         select: {
-            zhukong: true,
+            wanjia: true,
             Juese: {
                 select: {
                     keyVerify: true
@@ -21,7 +21,7 @@ export default async ({id, signature}: {
             }
         }
     })
-    await auth(zhukong ? Juese.keyVerify : Wenyou.keyVerify, Buffer.alloc(0), signature)
+    await auth(wanjia ? Juese.keyVerify : Wenyou.keyVerify, Buffer.alloc(0), signature)
     await prisma.xingdong.delete({
         where: {id}
     })
