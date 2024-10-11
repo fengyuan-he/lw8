@@ -1,5 +1,4 @@
 import {Button} from "@/components/ui/button";
-import {Home} from "lucide-react";
 import {useRouter} from "next/navigation";
 import {ReactNode} from "react";
 
@@ -19,10 +18,10 @@ export default function Frame({title, header, actions, children}: {
                 <div className="space-x-2">
                     <Button
                         variant="outline"
-                        size="icon"
+                        size="sm"
                         onClick={() => push('/')}
                     >
-                        <Home className="w-4 h-4"/>
+                        首页
                     </Button>
                 </div>
             </div>
