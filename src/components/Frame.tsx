@@ -1,5 +1,5 @@
 import {Button} from "@/components/ui/button";
-import {Download, Home} from "lucide-react";
+import {Home} from "lucide-react";
 import {useRouter} from "next/navigation";
 import {ReactNode} from "react";
 
@@ -23,13 +23,6 @@ export default function Frame({title, header, actions, children}: {
                         onClick={() => push('/')}
                     >
                         <Home className="w-4 h-4"/>
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => push('https://github.com/bishojoism/lw7/releases/latest')}
-                    >
-                        <Download className="w-4 h-4"/>
                     </Button>
                 </div>
             </div>
