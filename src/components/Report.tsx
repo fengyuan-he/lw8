@@ -9,7 +9,7 @@ export default function Report({error, onRetry}: { error: Error, onRetry: () => 
     }, [error])
     return (
         <Alert variant="destructive">
-            <Button variant="outline" size="icon" onClick={onRetry} asChild>
+            <Button variant="outline" size="icon" onClick={onRetry}>
                 <RefreshCw className="w-4 h-4"/>
             </Button>
             <AlertTitle>
