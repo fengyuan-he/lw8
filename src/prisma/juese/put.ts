@@ -21,15 +21,16 @@ export default async ({wenyouIds, lt, gt}: {
         select: {
             id: true,
             createdAt: true,
-            messageData: true,
-            messageVector: true
+            messageData: true
         }
     })
     if (gt !== undefined) Juese.reverse()
-    return Juese.map(({id, createdAt, messageData, messageVector}) => ({
-        id,
-        create: createdAt.valueOf(),
-        messageData: to(messageData),
-        messageVector: to(messageVector)
-    }))
+    return {
+        title: '玩家报名',
+        list: Juese.map(({id, createdAt, messageData}) => ({
+            id,
+            create: createdAt.valueOf(),
+            messageData: to(messageData)
+        }))
+    }
 }

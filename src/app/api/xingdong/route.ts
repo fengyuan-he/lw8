@@ -11,7 +11,6 @@ import aSchema from "@/app/api/aSchema";
 export const POST = api(async request => post(z.object({
     jueseId: z.number(),
     messageData: bSchema,
-    messageVector: bSchema,
     wanjia: z.boolean(),
     signature: bSchema
 }).strict().parse(await request.json())))
@@ -19,7 +18,6 @@ export const POST = api(async request => post(z.object({
 export const PATCH = api(async request => patch(z.object({
     id: z.number(),
     messageData: bSchema,
-    messageVector: bSchema,
     signature: bSchema
 }).strict().parse(await request.json())))
 

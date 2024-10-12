@@ -23,16 +23,17 @@ export default async ({wenyouIds, jueseIds, lt, gt}: {
             jueseId: true,
             id: true,
             createdAt: true,
-            messageData: true,
-            messageVector: true
+            messageData: true
         }
     })
     if (gt !== undefined) Xingdong.reverse()
-    return Xingdong.map(({jueseId, id, createdAt, messageData, messageVector}) => ({
-        jueseId,
-        id,
-        create: createdAt.valueOf(),
-        messageData: to(messageData),
-        messageVector: to(messageVector)
-    }))
+    return {
+        title: `${wenyouIds !== undefined ? '玩家' : '推演'}回复`,
+        list: Xingdong.map(({jueseId, id, createdAt, messageData}) => ({
+            jueseId,
+            id,
+            create: createdAt.valueOf(),
+            messageData: to(messageData)
+        }))
+    }
 }

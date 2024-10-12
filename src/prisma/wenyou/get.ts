@@ -22,9 +22,7 @@ export default async ({id, lt, gt}: {
                 select: {
                     id: true,
                     createdAt: true,
-                    keyEncrypt: true,
-                    messageData: true,
-                    messageVector: true
+                    messageData: true
                 }
             }
         }
@@ -34,12 +32,10 @@ export default async ({id, lt, gt}: {
         create: createdAt.valueOf(),
         keyEncrypt: to(keyEncrypt),
         message,
-        list: Juese.map(({id, createdAt, keyEncrypt, messageData, messageVector}) => ({
+        list: Juese.map(({id, createdAt, messageData}) => ({
             id,
             create: createdAt.valueOf(),
-            keyEncrypt: to(keyEncrypt),
-            messageData: to(messageData),
-            messageVector: to(messageVector)
+            messageData: to(messageData)
         }))
     }
 }

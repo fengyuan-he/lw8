@@ -1,10 +1,9 @@
 import prisma from "@/prisma";
 import auth from "@/crypto/auth";
 
-export default async ({id, messageData, messageVector, signature}: {
+export default async ({id, messageData, signature}: {
     id: number
     messageData: Buffer
-    messageVector: Buffer
     signature: Buffer
 }) => {
     const {wanjia, Juese, Wenyou} = await prisma.xingdong.findUniqueOrThrow({
@@ -26,6 +25,6 @@ export default async ({id, messageData, messageVector, signature}: {
     await auth(wanjia ? Juese.keyVerify : Wenyou.keyVerify, messageData, signature)
     await prisma.xingdong.update({
         where: {id},
-        data: {messageData, messageVector}
+        data: {messageData}
     })
 }

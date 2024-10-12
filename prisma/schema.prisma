@@ -25,29 +25,27 @@ model Wenyou {
 }
 
 model Juese {
-  Wenyou        Wenyou     @relation(fields: [wenyouId], references: [id])
-  wenyouId      Int
-  id            Int        @id @default(autoincrement())
-  createdAt     DateTime   @default(now())
-  keyVerify     Bytes      @unique
-  keyEncrypt    Bytes      @unique
-  messageData   Bytes
-  messageVector Bytes      @unique
-  Xingdong      Xingdong[]
+  Wenyou      Wenyou     @relation(fields: [wenyouId], references: [id])
+  wenyouId    Int
+  id          Int        @id @default(autoincrement())
+  createdAt   DateTime   @default(now())
+  keyVerify   Bytes      @unique
+  keyEncrypt  Bytes      @unique
+  messageData Bytes
+  Xingdong    Xingdong[]
 
   @@index([wenyouId])
 }
 
 model Xingdong {
-  Wenyou        Wenyou   @relation(fields: [wenyouId], references: [id])
-  wenyouId      Int
-  Juese         Juese    @relation(fields: [jueseId], references: [id])
-  jueseId       Int
-  id            Int      @id @default(autoincrement())
-  createdAt     DateTime @default(now())
-  messageData   Bytes
-  messageVector Bytes    @unique
-  wanjia        Boolean
+  Wenyou      Wenyou   @relation(fields: [wenyouId], references: [id])
+  wenyouId    Int
+  Juese       Juese    @relation(fields: [jueseId], references: [id])
+  jueseId     Int
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  messageData Bytes
+  wanjia      Boolean
 
   @@index([wenyouId])
   @@index([jueseId])

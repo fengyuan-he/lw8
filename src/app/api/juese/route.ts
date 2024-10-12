@@ -21,14 +21,12 @@ export const POST = api(async request => post(z.object({
     keyVerify: bSchema,
     keyEncrypt: bSchema,
     messageData: bSchema,
-    messageVector: bSchema,
     signature: bSchema
 }).strict().parse(await request.json())))
 
 export const PATCH = api(async request => patch(z.object({
     id: z.number(),
     messageData: bSchema,
-    messageVector: bSchema,
     signature: bSchema
 }).strict().parse(await request.json())))
 

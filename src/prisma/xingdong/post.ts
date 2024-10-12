@@ -1,10 +1,9 @@
 import prisma from "@/prisma";
 import auth from "@/crypto/auth";
 
-export default async ({jueseId, messageData, messageVector, wanjia, signature}: {
+export default async ({jueseId, messageData, wanjia, signature}: {
     jueseId: number
     messageData: Buffer
-    messageVector: Buffer
     wanjia: boolean
     signature: Buffer
 }) => {
@@ -31,7 +30,6 @@ export default async ({jueseId, messageData, messageVector, wanjia, signature}: 
         data: {
             jueseId,
             messageData,
-            messageVector,
             wanjia,
             ...await prisma.juese.findUniqueOrThrow({
                 where: {

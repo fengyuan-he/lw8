@@ -13,7 +13,6 @@ export default async ({id, lt, gt}: {
         createdAt,
         keyEncrypt,
         messageData,
-        messageVector,
         Xingdong
     } = await prisma.juese.findUniqueOrThrow({
         where: {id},
@@ -28,7 +27,6 @@ export default async ({id, lt, gt}: {
             createdAt: true,
             keyEncrypt: true,
             messageData: true,
-            messageVector: true,
             Xingdong: {
                 ...lt !== undefined ? {where: {id: {lt}}} : gt !== undefined && {where: {id: {gt}}},
                 orderBy: {
@@ -39,7 +37,6 @@ export default async ({id, lt, gt}: {
                     id: true,
                     createdAt: true,
                     messageData: true,
-                    messageVector: true,
                     wanjia: true
                 }
             }
@@ -55,12 +52,10 @@ export default async ({id, lt, gt}: {
         create: createdAt.valueOf(),
         keyEncrypt: to(keyEncrypt),
         messageData: to(messageData),
-        messageVector: to(messageVector),
-        list: Xingdong.map(({id, createdAt, messageData, messageVector, wanjia}) => ({
+        list: Xingdong.map(({id, createdAt, messageData, wanjia}) => ({
             id,
             create: createdAt.valueOf(),
             messageData: to(messageData),
-            messageVector: to(messageVector),
             wanjia
         }))
     }

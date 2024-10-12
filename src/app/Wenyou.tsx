@@ -81,7 +81,11 @@ const handleUpdate = async (id: number, message: string, signKey: CryptoKey) => 
     })
 }
 
-function WenyouUpdate({id, message, signKey}: { id: number, message: string, signKey: CryptoKey }) {
+function WenyouUpdate({id, message, signKey}: {
+    id: number
+    message: string
+    signKey: CryptoKey
+}) {
     const [msg, setMsg] = useLocalStorage(`wenyou-msg-${id}`, message)
     const msg_ = useMemo(() => msg ?? '', [msg])
     const [preview, setPreview] = useState(false)
@@ -140,6 +144,8 @@ function WenyouDelete({id, onDelete, signKey}: {
     const del = useCallback(async () => {
         await handleDelete(id, signKey)
         setId_(undefined)
+        localStorage.removeItem(`wenyou-signKey-${id}`)
+        localStorage.removeItem(`wenyou-decryptKey-${id}`)
         onDelete()
     }, [id, signKey, onDelete])
     return (

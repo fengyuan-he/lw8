@@ -2,12 +2,11 @@ import prisma from "@/prisma";
 import auth from "@/crypto/auth";
 import {importEncryptKey} from "@/crypto/asymmetric";
 
-export default async ({wenyouId, keyVerify, keyEncrypt, messageData, messageVector, signature}: {
+export default async ({wenyouId, keyVerify, keyEncrypt, messageData, signature}: {
     wenyouId: number
     keyVerify: Buffer
     keyEncrypt: Buffer
     messageData: Buffer
-    messageVector: Buffer
     signature: Buffer
 }) => {
     await importEncryptKey(keyEncrypt)
@@ -17,8 +16,7 @@ export default async ({wenyouId, keyVerify, keyEncrypt, messageData, messageVect
             wenyouId,
             keyVerify,
             keyEncrypt,
-            messageData,
-            messageVector
+            messageData
         },
         select: {
             id: true

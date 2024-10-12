@@ -18,6 +18,7 @@ import {Switch} from "@/components/ui/switch";
 import {Label} from "@/components/ui/label";
 import Async from "@/components/Async";
 import Wenyou, {WenyouProps} from "@/app/Wenyou";
+import nRequest from "@/app/api/nRequest";
 
 const GET = app(z.object({
     announcement: z.string(),
@@ -38,11 +39,45 @@ const parseGET = ({announcement, list}: Awaited<ReturnType<typeof GET>>) => ({
 const handleRefresh = async () => parseGET(await GET('/api'))
 const handleLoadNew = async (gt: number) => parseGET(await GET(`/api?gt=${gt}`))
 const handleLoadOld = async (lt: number) => parseGET(await GET(`/api?lt=${lt}`))
-const POST = app(z.number())
+
+export default function Page() {
+    return (
+        <Items
+            handleRefresh={handleRefresh}
+            handleLoadNew={handleLoadNew}
+            handleLoadOld={handleLoadOld}
+            map={(value: WenyouProps) => <Wenyou {...value}/>}
+        >
+            {([refresh, list]) =>
+                <Frame header="首页" actions={refresh}>
+                    {list && (() => {
+                        const [{announcement}, node] = list
+                        return (
+                            <>
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>公告</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <MDX>{announcement}</MDX>
+                                    </CardContent>
+                                </Card>
+                                <Separator/>
+                                <WenyouCreate/>
+                                <Separator/>
+                                {node}
+                            </>
+                        )
+                    })()}
+                </Frame>}
+        </Items>
+    )
+}
+
 const handleCreate = async (message: string) => {
     const {signKey, verifyKey} = await generateDigitalKey()
     const {encryptKey, decryptKey} = await generateAsymmetricKey()
-    const id = await POST('/api/wenyou', {
+    const id = await nRequest('/api/wenyou', {
         method: 'POST',
         body: JSON.stringify({
             keyVerify: to(Buffer.from(await exportVerifyKey(verifyKey))),
@@ -56,7 +91,7 @@ const handleCreate = async (message: string) => {
     return id
 }
 
-export default function Page() {
+function WenyouCreate() {
     const [msg, setMsg] = useLocalStorage('wenyou-msg')
     const msg_ = useMemo(() => msg ?? '', [msg])
     const [preview, setPreview] = useState(false)
@@ -68,45 +103,22 @@ export default function Page() {
         push(`/wenyou/${id}`)
     }, [msg, setMsg, push])
     return (
-        <Items
-            handleRefresh={handleRefresh}
-            handleLoadNew={handleLoadNew}
-            handleLoadOld={handleLoadOld}
-            map={(value: WenyouProps) => <Wenyou {...value}/>}
-        >
-            {([refresh, list]) => <Frame header="首页" actions={refresh}>{list && (() => {
-                const [{announcement}, node] = list
-                return (
-                    <>
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>公告</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <MDX>{announcement}</MDX>
-                            </CardContent>
-                        </Card>
-                        <Separator/>
-                        {
-                            preview ?
-                                <MDX>{msg_}</MDX> :
-                                <Textarea
-                                    className="resize-none my-4"
-                                    placeholder="请在这里填写要创建的文游的内容，支持MDX格式，将公开可见"
-                                    value={msg}
-                                    onChange={event => setMsg(event.target.value)}
-                                />
-                        }
-                        <div className="flex items-center space-x-2">
-                            <Switch id="preview" checked={preview} onCheckedChange={setPreview}/>
-                            <Label htmlFor="preview">预览</Label>
-                            <Async fn={create}>送出</Async>
-                        </div>
-                        <Separator/>
-                        {node}
-                    </>
-                )
-            })()}</Frame>}
-        </Items>
+        <>
+            {
+                preview ?
+                    <MDX>{msg_}</MDX> :
+                    <Textarea
+                        className="resize-none my-4"
+                        placeholder="请在这里填写要创建的文游的内容，支持MDX格式，所有人可见"
+                        value={msg}
+                        onChange={event => setMsg(event.target.value)}
+                    />
+            }
+            <div className="flex items-center space-x-2">
+                <Switch id="preview" checked={preview} onCheckedChange={setPreview}/>
+                <Label htmlFor="preview">预览</Label>
+                <Async fn={create}>送出</Async>
+            </div>
+        </>
     )
 }

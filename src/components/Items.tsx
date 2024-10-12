@@ -8,7 +8,7 @@ export default function Items<
     handleRefresh: () => Promise<T>
     handleLoadNew: (gt: number) => Promise<T>
     handleLoadOld: (lt: number) => Promise<T>
-    map: (value: V) => ReactNode
+    map: (value: V, rest: Omit<T, 'list'>) => ReactNode
     children: (array: [ReactNode, [Omit<T, 'list'>, ReactNode] | undefined]) => ReactNode
 }) {
     const [data, setData] = useState<T>()
@@ -35,7 +35,7 @@ export default function Items<
                 restData,
                 <>
                     <Async fn={loadNew} autoPoll>加载更近</Async>
-                    <ul className="space-y-2">{list.map(value => <li key={value.id}>{map(value)}</li>)}</ul>
+                    <ul className="space-y-2">{list.map(value => <li key={value.id}>{map(value, restData)}</li>)}</ul>
                     <Async fn={loadOld}>加载更远</Async>
                 </>
             ]
