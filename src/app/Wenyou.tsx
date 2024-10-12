@@ -146,6 +146,8 @@ function WenyouDelete({id, onDelete, signKey}: {
         setId_(undefined)
         localStorage.removeItem(`wenyou-signKey-${id}`)
         localStorage.removeItem(`wenyou-decryptKey-${id}`)
+        localStorage.removeItem(`wenyou-msg-${id}`)
+        localStorage.removeItem(`${id}-juese-msg`)
         onDelete()
     }, [id, signKey, onDelete])
     return (

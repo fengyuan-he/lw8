@@ -160,6 +160,8 @@ function JueseDelete({id, onDelete, signKey}: {
         localStorage.removeItem(`juese-signKey-${id}`)
         localStorage.removeItem(`juese-decryptKey-${id}`)
         localStorage.removeItem(`juese-message-${id}`)
+        localStorage.removeItem(`juese-msg-${id}`)
+        localStorage.removeItem(`${id}-xingdong-msg`)
         onDelete()
     }, [id, signKey, onDelete])
     return (
